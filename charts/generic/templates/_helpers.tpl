@@ -118,3 +118,48 @@ env:
   - name: GITLAB_ENVIRONMENT_URL
     value: {{ .Values.gitlab.envURL | quote }}
 {{- end -}}
+
+{{- define "volumesCM" -}}
+- name: custom-settings
+  configMap:
+    name: {{ include "fullname" . }}-cm
+{{- end -}}
+
+{{- define "mountCM" -}}
+{{ range $key, $value := .Values.mountConfigmap }}
+- name: {{ include "fullname" $ }}-cm
+  mountPath: {{ $value }}
+  subPath: {{ $key }}
+  readOnly: true
+{{ end }}
+{{- end -}}
+
+{{- define "volumes" }}
+volumes:
+{{ include "volumesCM" . | indent 2 }}
+{{- if .Values.persistence.enabled }}
+{{- $context := . }}
+{{- range $volume := .Values.persistence.volumes }}
+  - name: {{ $volume.name | quote }}
+    persistentVolumeClaim:
+      {{ $args := dict "context" $context "name" $volume.name }}
+      claimName: {{ template "pvcName" $args }}
+{{- end }}
+{{- end }}
+
+{{- end -}}
+
+{{- define "volumesMount" }}
+volumeMounts:
+{{ include "mountCM" . | indent 2 }}
+{{- if .Values.persistence.enabled }}
+{{- range $volume := .Values.persistence.volumes }}
+  - name: {{ $volume.name | quote }}
+    mountPath: {{ $volume.mount.path | quote }}
+    {{- if $volume.mount.subPath }}
+    subPath: {{ $volume.mount.subPath | quote }}
+    {{- end }}
+{{- end }}
+{{- end }}
+
+{{- end -}}

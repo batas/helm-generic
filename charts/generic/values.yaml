@@ -3,6 +3,8 @@
 # Declare variables to be passed into your templates.
 
 env: []
+configmap: {}
+mountConfigmap: {}
 
 replicaCount: 1
 strategyType:

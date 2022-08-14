@@ -31,4 +31,6 @@ spec:
             name: {{ .Values.application.secretName }}
         {{- end }}
 {{ include "env" . | indent 8 }}
+{{ include "volumesMount" . | indent 8 }}
+{{ include "volumes" . | indent 6 }}
 {{- end -}}

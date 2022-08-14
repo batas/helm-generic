@@ -68,16 +68,7 @@ spec:
       topologySpreadConstraints:
 {{ toYaml .Values.topologySpreadConstraints | indent 8 }}
 {{- end }}
-{{- if .Values.persistence.enabled }}
-{{- $context := . }}
-      volumes:
-{{- range $volume := .Values.persistence.volumes }}
-        - name: {{ $volume.name | quote }}
-          persistentVolumeClaim:
-            {{ $args := dict "context" $context "name" $volume.name }}
-            claimName: {{ template "pvcName" $args }}
-{{- end }}
-{{- end }}
+{{ include "volumes" . | indent 6 }}
       terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
 {{- if .Values.hostAliases }}
       hostAliases:
@@ -171,14 +162,5 @@ spec:
 {{- end }}
         resources:
 {{ toYaml .Values.resources | indent 12 }}
-{{- if .Values.persistence.enabled }}
-        volumeMounts:
-{{- range $volume := .Values.persistence.volumes }}
-          - name: {{ $volume.name | quote }}
-            mountPath: {{ $volume.mount.path | quote }}
-            {{- if $volume.mount.subPath }}
-            subPath: {{ $volume.mount.subPath | quote }}
-            {{- end }}
-{{- end }}
-{{- end }}
+{{ include "volumesMount" . | indent 8 }}
 {{- end -}}
