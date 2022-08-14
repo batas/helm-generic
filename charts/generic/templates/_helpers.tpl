@@ -84,3 +84,37 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 {{- $merged := deepCopy $custom | mergeOverwrite $defaults -}}
 {{- $merged | toYaml -}}
 {{- end -}}
+
+
+{{- define "env" -}}
+env:
+  {{- range .Values.env }}
+  -
+{{ toYaml . | indent 4 }}
+  {{- end -}}
+  {{- if .Values.postgresql.managed }}
+  - name: POSTGRES_USER
+    valueFrom:
+      secretKeyRef:
+        name: app-postgres
+        key: username
+  - name: POSTGRES_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: app-postgres
+        key: password
+  - name: POSTGRES_HOST
+    valueFrom:
+      secretKeyRef:
+        name: app-postgres
+        key: privateIP
+  {{- end }}
+  {{- if .Values.application.database_url }}
+  - name: DATABASE_URL
+    value: {{ .Values.application.database_url | quote }}
+  {{- end }}
+  - name: GITLAB_ENVIRONMENT_NAME
+    value: {{ .Values.gitlab.envName | quote }}
+  - name: GITLAB_ENVIRONMENT_URL
+    value: {{ .Values.gitlab.envURL | quote }}
+{{- end -}}
