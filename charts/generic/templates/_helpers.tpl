@@ -127,7 +127,7 @@ env:
 
 {{- define "mountCM" -}}
 {{ range $key, $value := .Values.mountConfigmap }}
-- name: {{ include "fullname" $ }}-cm
+- name: custom-settings
   mountPath: {{ $value }}
   subPath: {{ $key }}
   readOnly: true
