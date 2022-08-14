@@ -70,6 +70,7 @@ gitlab:
   envName:
   envURL:
   projectID:
+
 service:
   enabled: true
   annotations: {}
@@ -82,6 +83,7 @@ service:
   internalPort: 5000
   # nodePort: 30001
   extraPorts: []
+
 ingress:
   enabled: true
   path: "/"

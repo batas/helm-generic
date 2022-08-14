@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ template "fullname" . }}
+  name: {{ template "name" . }}-{{ .Values.service.name }}
   annotations:
 {{- if .Values.service.annotations }}
 {{ toYaml .Values.service.annotations | indent 4 }}
@@ -18,7 +18,7 @@ spec:
   type: {{ .Values.service.type }}
   ports:
   - port: {{ .Values.service.externalPort }}
-    targetPort: {{ .Values.service.internalPort }}
+    targetPort: "{{ .Values.service.name }}"
     protocol: TCP
     name: {{ .Values.service.name }}
 {{- if eq .Values.service.type "NodePort" }}
