@@ -1,4 +1,4 @@
 apiVersion: v1
 description: batas auto-deploy chart
 name: batas-deploy-app
-version: 0.1.4
+version: 0.1.5
