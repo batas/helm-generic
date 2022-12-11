@@ -18,7 +18,7 @@ spec:
   type: {{ .Values.service.type }}
   ports:
   - port: {{ .Values.service.externalPort }}
-    targetPort: "{{ .Values.service.name }}"
+    targetPort: {{ .Values.service.internalPort }}
     protocol: TCP
     name: {{ .Values.service.name }}
 {{- if eq .Values.service.type "NodePort" }}
