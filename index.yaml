@@ -2,6 +2,14 @@ apiVersion: v1
 entries:
   batas-deploy-app:
   - apiVersion: v1
+    created: "2022-12-11T15:51:47.033798782Z"
+    description: batas auto-deploy chart
+    digest: 8b14c2441fe266b94f5ef5030669690741c77d37b0ba701ebb9f59d8710fc930
+    name: batas-deploy-app
+    urls:
+    - https://github.com/batas/helm-generic/releases/download/batas-deploy-app-0.2.1/batas-deploy-app-0.2.1.tgz
+    version: 0.2.1
+  - apiVersion: v1
     created: "2022-12-11T12:09:16.065313197Z"
     description: batas auto-deploy chart
     digest: 7322577adf1f561ad661e3a0ae63a332ab0be2bd191b41a0e6a178ee65e1b38c
@@ -81,4 +89,4 @@ entries:
     urls:
     - https://github.com/batas/helm-generic/releases/download/batas-deploy-app-0.1.0/batas-deploy-app-0.1.0.tgz
     version: 0.1.0
-generated: "2022-08-14T05:58:10.448069174Z"
+generated: "2022-12-11T15:51:47.033855082Z"
